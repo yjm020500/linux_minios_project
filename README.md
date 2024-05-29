@@ -1,4 +1,4 @@
-# miniOS
+# Team1. miniOS
 
 miniOS-project/  
 ├── README.md               # 프로젝트 설명 및 사용 방법 문서  

@@ -1,0 +1,4 @@
+*.zip
+
+DJGPP/
+nasm-2.04-win32/

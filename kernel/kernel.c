@@ -6,12 +6,16 @@
 
 #include "system.h"
 
-void print_minios(char* str);
-
 int main() {
-    print_minios("[MiniOS SSU] Hello, World!");
+    char * input;
 
-    char *input;
+    void * virtual_physical_memory = make_dummy_physical_memory();
+
+    // 메모리 주소와 데이터 값을 출력
+    unsigned char * p = (unsigned char *)virtual_physical_memory;
+    for (size_t i = 0; i < 100; i++) { // 처음 100 바이트만 출력
+        printf("주소: %p, 데이터: 0x%02X\n", (void *)(p + i), p[i]);
+    }
 
     while(1) {
         // readline을 사용하여 입력 받기
@@ -25,26 +29,6 @@ int main() {
             minisystem();
         }
      
-        else if (strcmp(input, "up_down_game") == 0) {
-            up_down_game();
-        }
-        
-        else if (strcmp(input, "mini_fork") == 0) {
-            mini_fork();    
-        }
-
-	    else if (strcmp(input, "shm_com") == 0) {
-	        shm_com();
-	    }
-
-        else if (strcmp(input, "pipe_com") == 0) {
-            pipe_com();
-	    }
-        
-        else if (strcmp(input, "monte_carlo") == 0) {
-            monte_carlo();
-        }
-
         else {
             system(input); 
         }
@@ -55,8 +39,4 @@ int main() {
     print_minios("[MiniOS SSU] MiniOS Shutdown........");
 
     return 0;
-}
-
-void print_minios(char* str) {
-        printf("%s\n",str);
 }

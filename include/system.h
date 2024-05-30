@@ -3,12 +3,8 @@
 
 void minisystem();
 
-void up_down_game();
+void printWithDelay(const char *str, int delay);
+void print_minios(char* str);
 
-void mini_fork();
-
-int shm_com();
-
-int pipe_com();
-
-int monte_carlo();
+void * memory_set(void * ptr, int value, size_t num);
+void * make_dummy_physical_memory();

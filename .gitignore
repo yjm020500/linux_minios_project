@@ -1,4 +1,7 @@
 *.zip
 
-DJGPP/
-nasm-2.04-win32/
+
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store

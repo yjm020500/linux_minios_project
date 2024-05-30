@@ -1,11 +1,10 @@
 *.zip
+/demo.c
+/demo
 
-/.vscode
+.vscode/
 
 .DS_Store
 ._.DS_Store
 **/.DS_Store
 **/._.DS_Store
-
-demo.c
-demo

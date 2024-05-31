@@ -2,3 +2,5 @@
 
 void printWithDelay(const char *str, int delay);
 void print_minios(char* str);
+
+void print_binary(unsigned char byte);

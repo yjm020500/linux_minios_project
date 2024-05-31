@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "system.h"
+#include "print_util.h"
 
 void * memory_set(void * ptr, int value, size_t num) {
     unsigned char * p = (unsigned char *)ptr;

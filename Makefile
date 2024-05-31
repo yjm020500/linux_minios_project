@@ -1,26 +1,35 @@
 # Compiler and Compiler Flags
 CC=gcc
-CFLAGS=-Wall -g -Iinclude
+CFLAGS=-Wall -g -Iinclude -Ilib
 
 # Linker flags
 LDFLAGS=-lreadline -lm
 
 # The build target executable:
-TARGET=minios
+TARGET1=powerOn
+TARGET2=minios
 # FORK_PROGRAM=kernel/20192490/print_os_name
 
 # Source, Object files
-SRCS=kernel/kernel.c kernel/system.c kernel/mem_s/print_util.c kernel/mem_s/mem_allocate.c 
+SRCS=kernel/kernel.c \
+     kernel/system.c \
+	 kernel/mem_s/mem_allocate.c \
+	 kernel/mem_s/dummy_memory_management.c \
+	 lib/print_util.c \
+	  
 OBJS=$(SRCS:.c=.o)
 
 #Include directory
 INCLUDE_DIR=include
 
 #$(FORK_PROGRAM)... 추후에 추가 $(OBJS)->$^
-all: $(TARGET) 
+all: $(TARGET1) $(TARGET2) 
 
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+$(TARGET1): boot/boot.o
+	$(CC) $(CFLAGS) -o $(TARGET1) boot/boot.o $(LDFLAGS)
+
+$(TARGET2): $(OBJS)
+	$(CC) $(CFLAGS) -o $(TARGET2) $(OBJS) $(LDFLAGS)
 
 # Make fork program... 추후에 추가
 #$(FORK_CHILD_PROGRAM): kernel/20192490/print_os_name.o

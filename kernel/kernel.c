@@ -7,6 +7,9 @@
 #include "system.h"
 
 int main() {
+
+    system("clear");
+
     char * input;
 
     void * virtual_physical_memory = make_dummy_physical_memory();
@@ -14,14 +17,22 @@ int main() {
     // 메모리 주소와 데이터 값을 출력
     unsigned char * p = (unsigned char *)virtual_physical_memory;
     for (size_t i = 0; i < 100; i++) { // 처음 100 바이트만 출력
-        printf("주소: %p, 데이터: 0x%02X\n", (void *)(p + i), p[i]);
+        printf("주소: %p, 데이터: 0x%02X \n", (void *)(p + i), p[i]);
     }
+    printf("끝 주소 %p \n", (void *)p+(64*1024)-1);
+
+    void * start_address = (void *)virtual_physical_memory;
+    void * end_address = (void *)(virtual_physical_memory + (64*1024) - 1);
+    printf("%p,   %p \n", start_address, end_address);
+
+    int prepare_dummy_physical_memory_reorder(start_address, end_address);
 
     while(1) {
         // readline을 사용하여 입력 받기
         input = readline("커맨드를 입력하세요(종료:exit) : ");
 
         if (strcmp(input,"exit") == 0) {
+            system("tmux kill-session -t terminal");
             break;
         }
         

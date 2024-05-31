@@ -25,7 +25,7 @@ int main() {
     void * end_address = (void *)(virtual_physical_memory + (64*1024) - 1);
     printf("%p,   %p \n", start_address, end_address);
 
-    int prepare_dummy_physical_memory_reorder(start_address, end_address);
+    prepare_dummy_physical_memory_reorder(start_address, end_address);
 
     while(1) {
         // readline을 사용하여 입력 받기

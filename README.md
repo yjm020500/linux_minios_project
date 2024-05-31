@@ -20,5 +20,7 @@ O └── lib/ # 라이브러리 헤더 파일
 O ├── build.sh # 빌드 스크립트  
 O └── run_qemu.sh # QEMU를 통해 OS 이미지 실행 스크립트  
 ├── boot_os # 화면 부팅 프로그램 (최초 실행)
+
 ├── minios # 메모리 관리 시뮬레이션 프로그램
+
 └── remove_all_object # 전체 오브젝트 파일 삭제하는 프로그램 (사용법 - ./remove_all_object)

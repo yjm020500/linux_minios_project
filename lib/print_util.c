@@ -16,9 +16,9 @@ void print_minios(char* str) {
         printf("%s\n",str);
 }
 
-// 1바이트를 2진수로 출력하는 함수
-void print_binary(unsigned char byte) {
+// 1바이트(메모리 한칸의 크기 - 안의 값이 16진수로 표시됨)를 2진수로 만들어 다른 pane에 넘겨주기 위해 저장
+void print_binary_to_file(unsigned char byte, FILE *fp) {
     for (int i = 7; i >= 0; i--) {
-        printf("%d", (byte >> i) & 1);
+        fprintf(fp, "%d", (byte >> i) & 1);
     }
 }

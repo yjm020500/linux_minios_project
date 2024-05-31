@@ -1,0 +1,60 @@
+    // 이미 존재하는 tmux 세션과 1번 pane 사용 - 1번 pane에 memory GUI 계속 갱신해서 띄울거임 
+    const char * tmux_session_name = "terminal";
+    const char * tmux_pane = "1";
+    const char * output_file_path = "/tmp/tmux_output";
+
+    // tmux 패인으로 출력 리디렉션
+    int tmux_fd = open("output_file_path", O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+    FILE *tmux_fp = fdopen(tmux_fd, "w");
+
+    // 메모리 주소와 데이터 값을 출력 (윗단은 진짜 64KB 메모리 처럼 재구성, 아랫단은 진짜 값)
+    unsigned char * p = (unsigned char *)virtual_physical_memory;
+    for (size_t i = 0; i < 100 ; i++) { // 처음 100 바이트만 출력
+        // print_minios("--------------------------------------------");
+        // printf("| ADDRESS |  0x%04zX  | DATA |  0b", i);
+        // print_binary(p[i]);
+        // print_minios("  |");
+        fprintf(tmux_fp, "     --------------------------------------------\n");
+        fprintf(tmux_fp, "     | ADDRESS |  0x%04zX  | DATA |  0b", i);
+        print_binary_to_file(p[i], tmux_fp);
+        fprintf(tmux_fp, "  |\n");
+    }
+    // print_minios("--------------------------------------------");
+    fprintf(tmux_fp, "     --------------------------------------------\n");
+
+    // for (size_t i = 0; i < 100; i++) { // 처음 100 바이트만 출력
+    //     printf("주소: %p, 데이터: 0b", (void *)(p + i));
+    //     print_binary(p[i]); // (void *)(p + i) 가 메모리 주소, p[i]가 그 메모리의 값 (if, i=0  (void *)(p), p[0])
+    //     printf("\n");
+    // }
+
+    fclose(tmux_fp);
+
+
+    print_to_tmux_pane(tmux_session_name, tmux_pane, output_file_path);
+
+
+
+
+메모
+
+나중에 tmux 명령어들 핸들링 헤더파일도 만들자
+
+프로그램 페이지 나눠서 페이지 테이블 만들고 -> 프로그램 관리 자료구조가 필요
+프레임들에 매칭되어 들어가는 로직 -> 페이지 테이블 대로 그 부분 코드 물리 메모리에 갖다 넣기
+넣는건 virtual_physical_memory 변수를 통해서 구간 잡아 for문으로 넣고
+페이지 테이블 업데이트
+
+까지 다 구현하면
+
+execute, terminate 명령어 구현
+
+execute하면 프로그램 바이너리 읽어와서 위에서 만든 로직으로 페이지 테이블 만들고
+메모리에 넣기
+
+terminate 하면 페이지 테이블 초기화 시키고 그 부분 메모리 반환시키고
+프로그램 삭제
+
+
+분할 화면에 프로그램 보내서 실행시키는건 이거 변형
+snprintf(tmux_command, sizeof(tmux_command), "tmux send-keys -t %s.%s 'cat %s' C-m", tmux_session_name, tmux_pane, output_file_path);

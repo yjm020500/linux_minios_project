@@ -3,7 +3,6 @@
 #include <string.h>
 
 #define PAGE_SIZE 4096 // 4KB 페이지 크기
-#define OFFSET_MASK 0xFFF // 12비트 오프셋
 
 #define TOTAL_MEMORY_SIZE 65536 // 64KB 전체 메모리 크기
 #define TOTAL_FRAMES (TOTAL_MEMORY_SIZE / PAGE_SIZE) // 총 프레임 수

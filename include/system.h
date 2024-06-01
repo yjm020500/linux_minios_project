@@ -11,3 +11,5 @@ void * make_dummy_physical_memory();
 
 int prepare_dummy_physical_memory_reorder(void * start_adr, void * end_adr);
 void memory_view(unsigned char *memory, size_t from, size_t to, const char *tmux_session_name, const char *tmux_pane);
+
+int read_program(char * path);

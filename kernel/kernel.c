@@ -10,11 +10,10 @@
 #include "print_util.h"
 
 int main() {
-
     system("clear");
     char * input;
 
-    void * virtual_physical_memory = make_dummy_physical_memory();
+    void * virtual_physical_memory = make_dummy_physical_memory(); // in memory_allocate.c
 
     void * start_address = (void *)virtual_physical_memory;
     void * end_address = (void *)(virtual_physical_memory + (64*1024) - 1);
@@ -29,8 +28,9 @@ int main() {
     print_minios("");
     sleep(1);
 
-    prepare_dummy_physical_memory_reorder(start_address, end_address);
-    memory_view(virtual_physical_memory, 0, 25, tmux_session_name, tmux_pane);
+    prepare_dummy_physical_memory_reorder(start_address, end_address); // 지금은 필요없음
+
+    memory_view(virtual_physical_memory, 0, 25, tmux_session_name, tmux_pane); // in memory_allocate.c
 
     while(1) {
         // readline을 사용하여 입력 받기
@@ -71,6 +71,10 @@ int main() {
         }
 
         else if (strcmp(input, "terminate") == 0) {
+
+        }
+
+        else if (strcmp(input, "show_pt") == 0) {
 
         }
 

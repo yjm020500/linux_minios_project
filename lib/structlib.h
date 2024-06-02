@@ -36,15 +36,17 @@ typedef struct {
 //
 
 FrameList * create_empty_frames_list();
-void add_empty_frame(FrameList * empty_frames_list, Frame frame);
+void add_empty_frame_sorted(FrameList * empty_frames_list, Frame frame, FrameManager * fm);
 void print_empty_frames_list(FrameList * empty_frames_list); 
 int count_empty_frames(FrameList * empty_frames_list);
-Frame get_first_empty_frame(FrameList * empty_frames_list);
+Frame get_first_empty_frame(FrameList * empty_frames_list, FrameManager * fm);
+Frame remove_node_at_position(FrameList * empty_frames_list, int position);
 
 
 FrameManager * create_frame_manager(unsigned char * dummy_physical_mem, FrameList * empty_frames_list);
 void free_frame_manager(FrameManager * frame_manager);
 void show_frame_status(FrameManager * frame_manager);
+void first_frame_list_set(FrameList * empty_frames_list, Frame frame);
 
 
 void free_frame_manager(FrameManager * frame_manager);

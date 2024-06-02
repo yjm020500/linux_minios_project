@@ -25,17 +25,18 @@ int main() {
     FrameManager * fm = create_frame_manager(virtual_physical_memory, fl);
     //
 
-    const char * tmux_session_name = "terminal";
-    const char * tmux_pane = "1";
+    // 필요할 때 사용하자
+    // const char * tmux_session_name = "terminal";
+    // const char * tmux_pane = "1";
 
     print_minios("");
     printWithDelay("Welcome to the Memory Management Simulation.", 30000);
     print_minios("");
-    printWithDelay("===========================================", 10000);
+    printWithDelay("================================================", 10000);
     print_minios("");
     sleep(1);
 
-    memory_view(virtual_physical_memory, 0, 25, tmux_session_name, tmux_pane); // in memory_allocate.c
+    memory_view(virtual_physical_memory, 0, 25); // in memory_allocate.c
 
     while(1) {
         // readline을 사용하여 입력 받기
@@ -58,7 +59,7 @@ int main() {
             print_minios("");
         }
 
-        else if (strcmp(input, "show_memory") == 0) {
+        else if (strcmp(input, "show_m") == 0) {
             size_t first, end;
 
             print_minios("Memory addresses are accessible from 0 to 65535.");
@@ -68,7 +69,7 @@ int main() {
             printf("Which address should you print end : ");
             scanf("%zu", &end);
             print_minios("");
-            memory_view(virtual_physical_memory, first, end, tmux_session_name, tmux_pane);
+            memory_view(virtual_physical_memory, first, end);
         }
      
         else if (strcmp(input, "show_f") == 0) {
@@ -88,6 +89,21 @@ int main() {
         }
 
         else if (strcmp(input, "terminate") == 0) {
+        }
+
+        // 테스트용
+        else if (strcmp(input, "pop_f") == 0) {
+            printf("첫번째거 팝 완료");
+            get_first_empty_frame(fl, fm);
+        }
+
+
+        else if (strcmp(input, "push") == 0) {
+            int b;
+            printf("몇번 넣어? ");
+            scanf("%d", &b);
+            printf("넣기 완료");
+            add_empty_frame_sorted(fl, fm->frames[b], fm);
         }
 
         else {

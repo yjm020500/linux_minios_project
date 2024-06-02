@@ -6,6 +6,8 @@
 #define PAGE_SIZE 4096 // 4KB 페이지 크기
 #define OFFSET_MASK 0xFFF // 12비트 오프셋 마스크
 
+long TOTAL_PAGES;
+
 typedef struct{ //page struct
     unsigned char data[PAGE_SIZE];
     int page_number;
@@ -17,7 +19,7 @@ typedef struct{ //page manager struct
     int current_total_pages;
     // 전체 페이지 갯수 0 ~ 4 라고 하면
     // 할당 되어 있느 페이지 갯수 -> Queue  기능에서 모니터링 할 때
-    int memory_load = 0 ,1 // 메모리 적재가 다 됨 trigger
+    int memory_load = 0; // 메모리 적재가 다 됨 trigger
 } PageManager;
 
 

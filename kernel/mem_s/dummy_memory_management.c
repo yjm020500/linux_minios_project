@@ -24,13 +24,13 @@ int prepare_dummy_physical_memory_reorder(void * start_adr, void * end_adr) {
 }
 
 // 가운데 화면에서 메모리 그림 보는 함수
-void memory_view(unsigned char *memory, size_t from, size_t to, const char *tmux_session_name, const char *tmux_pane) {
+void memory_view(unsigned char *memory, size_t from, size_t to) {
     if((from < 0) || (to > 64 * 1024 - 1)) {
         fprintf(stderr, "Invalid address range.\n");
         return;
     }
 
-    system("tmux send-keys -t 1 'clear' C-m"); 
+    system("tmux send-keys -t terminal.1 'clear' C-m"); 
 
     const char * output_file_path = "/tmp/memory_update"; // tmp/memory_update 파일을 메모리 스케치용으로 사용할거임
 
@@ -56,7 +56,9 @@ void memory_view(unsigned char *memory, size_t from, size_t to, const char *tmux
     fclose(tmux_fp);
 
     // tmp/memory_update 파일에 스케치된거 출력 지정한 pane에 드로잉
-    char tmux_command[256];
-    snprintf(tmux_command, sizeof(tmux_command), "tmux send-keys -t %s.%s 'cat %s' C-m", tmux_session_name, tmux_pane, output_file_path);
-    system(tmux_command);
+    // 버퍼를 이용하는 방식도 있다.
+    // char tmux_command[256];
+    // snprintf(tmux_command, sizeof(tmux_command), "tmux send-keys -t %s.%s 'cat %s' C-m", tmux_session_name, tmux_pane, output_file_path);
+    // system(tmux_command);
+    system("tmux send-keys -t terminal.1 'cat /tmp/memory_update' C-m"); 
 }

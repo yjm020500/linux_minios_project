@@ -9,10 +9,10 @@
 // program 주소 관리 page 구조체 및 함수들
 
 typedef struct { // page struct
-    int data[PAGE_SIZE];
+    unsigned int data[PAGE_SIZE];
     int page_number;
-	int matched_frame; //page_table만들때 frame과 matching이 되었는가?
-	size_t first_address; //page first address
+    int matched_frame; //page_table만들때 frame과 matching이 되었는가?
+    size_t first_address; //page first address
 } Page;
 
 typedef struct { // page manager struct
@@ -53,25 +53,21 @@ void show_total_page_status(PageManager* page_manager) {//전체 페이지
 
 void show_page_status(PageManager* page_manager, int page_num){//페이지 한 개
     printf("page_number           matched_frame          first_address\n");
-	printf("      %d                     %d                     %d\n", page_manager->pages[page_num].page_number, page_manager->pages[page_num].matched_frame, page_manager->pages[page_num].first_address);
+    printf("      %d                     %d                     %ld\n", page_manager->pages[page_num].page_number, page_manager->pages[page_num].matched_frame, page_manager->pages[page_num].first_address);
 }
 
-void set_page_data(PageManager* page_manager, int i, int j, int byte) { ///? two for loop
+void set_page_data(PageManager* page_manager, int i, int j, unsigned int byte) { ///? two for loop
     if (i < page_manager->allocated_pages && j < PAGE_SIZE) {
         page_manager->pages[i].data[j] = byte;
     }
 }
 
-int get_page_data(PageManager* page_manager, int page_num, int i){//밖에서for문으로 page_data받아오기(4kb돌면서)
+unsigned int get_page_data(PageManager* page_manager, int page_num, int i){//밖에서for문으로 page_data받아오기(4kb돌면서)
     return page_manager->pages[page_num].data[i];
 }
 
-void change_is_memory_loaded(PageManager* page_manager, int change) { // check_all_matched되면 밖에서 program pool에 넣고, 이거를 이용하여 1로 올림, 맨아래랑 합칠까 말까(check_all_matched)
-    page_manager->is_memory_loaded = change;
-}
-
 size_t get_page_first_address(PageManager* page_manager, int get_page_number){//원하는 page의 first address 가져오기
-	return page_manager->pages[get_page_number].first_address;
+    return page_manager->pages[get_page_number].first_address;
 }
 
 void set_first_address(PageManager* page_manager, int page_num, size_t first_addr){//addr넣을때 맨 처음에 이것도 실행
@@ -95,6 +91,7 @@ int check_all_matched(PageManager* page_manager){ //이 manager가 관리하는 
 	}
 	if(matched == page_manager->allocated_pages){
 	    return 1; //all_matched
+	    page_manager->is_memory_loaded = 1;
 	}
 	else{
 	    return 0; // not matched

@@ -38,7 +38,7 @@ int get_matched_frame(PageManager* page_manager, int page_num); // page table에
 int check_all_matched(PageManager* page_manager); // 이 manager가 관리하는 모든 page가 matched되었는지 확인
 
 
-// frame_struct.c 에 있는 구조체 및 함수들
+// frame_struct.c 에 있는 구조체 및 함수들 //
 
 typedef struct { 
     int frame_number;

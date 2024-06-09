@@ -12,7 +12,6 @@ typedef struct { // page struct
     unsigned int data[PAGE_SIZE];
     int page_number;
     int matched_frame; //page_table만들때 frame과 matching이 되었는가?
-    size_t first_address; //page first address
 } Page;
 
 typedef struct { // page manager struct
@@ -64,14 +63,6 @@ void set_page_data(PageManager* page_manager, int i, int j, unsigned int byte) {
 
 unsigned int get_page_data(PageManager* page_manager, int page_num, int i){//밖에서for문으로 page_data받아오기(4kb돌면서)
     return page_manager->pages[page_num].data[i];
-}
-
-size_t get_page_first_address(PageManager* page_manager, int get_page_number){//원하는 page의 first address 가져오기
-    return page_manager->pages[get_page_number].first_address;
-}
-
-void set_first_address(PageManager* page_manager, int page_num, size_t first_addr){//addr넣을때 맨 처음에 이것도 실행
-    page_manager->pages[page_num].first_address = first_addr;
 }
 
 void set_matched_frame(PageManager* page_manager, int page_num){ //page table에 frame과 match되었음

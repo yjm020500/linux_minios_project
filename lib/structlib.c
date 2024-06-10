@@ -35,22 +35,6 @@ typedef struct {
 
 // ================ ================ ================
 
-// ============ Process Pool 관리 구조체 ============
-
-// 프로세스 정보를 담는 구조체
-typedef struct Process {
-    PageManager * page_manager;
-    struct Process * next;
-    char process_name[20];
-} Process;
-
-// 링크드 리스트 관리를 위한 구조체
-typedef struct ProcessPool {
-    Process* head;
-} ProcessPool;
-
-// ================ ================ ================
-
 // ============ Process Page 관리 구조체 ============
 
 typedef struct { // page struct
@@ -65,6 +49,22 @@ typedef struct { // page manager struct
     int allocated_pages; // 총 몇개의 페이지인지
     int is_memory_loaded; // is making page table finished?
 } PageManager;
+
+// ================ ================ ================
+
+// ============ Process Pool 관리 구조체 ============
+
+// 프로세스 정보를 담는 구조체
+typedef struct Process {
+    PageManager * page_manager;
+    struct Process * next;
+    char process_name[20];
+} Process;
+
+// 링크드 리스트 관리를 위한 구조체
+typedef struct ProcessPool {
+    Process* head;
+} ProcessPool;
 
 // ================ ================ ================
 

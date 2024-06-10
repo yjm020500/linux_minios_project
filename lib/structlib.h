@@ -4,8 +4,8 @@
 #define TOTAL_MEMORY_SIZE 65536 // 64KB 전체 메모리 크기
 #define TOTAL_FRAMES (TOTAL_MEMORY_SIZE / PAGE_SIZE) // 총 프레임 수
 
-// program_struct.c 에 있는 구조체들 및 함수들
-// program 주소 관리 page 구조체 및 함수들
+// program_struct.c 에 있는 구조체들 및 함수들 //
+// program 주소 관리 page 구조체 및 함수들 //
 
 typedef struct { // page struct
     int data[PAGE_SIZE];

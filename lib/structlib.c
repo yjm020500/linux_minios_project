@@ -6,6 +6,9 @@
 
 #define TOTAL_MEMORY_SIZE 65536 // 64KB 전체 메모리 크기
 #define TOTAL_FRAMES (TOTAL_MEMORY_SIZE / PAGE_SIZE) // 총 프레임 수
+// #define OFFSET_MASK 0xFFF // 12비트 오프셋 마스크
+
+// ================ Frame 관리 구조체 ================
 
 typedef struct { 
     int frame_number;
@@ -29,7 +32,27 @@ typedef struct {
     FrameNode * head;
     FrameNode * tail;
 } FrameList;
-//
+
+// ================ ================ ================
+
+// ============ Process Page 관리 구조체 ============
+
+typedef struct { // page struct
+    unsigned int data[PAGE_SIZE];
+    int page_number;
+    int matched_frame; // 각 page와 frame matching된 값
+    int is_matched_frame; // 각 page와 frame matching 여부 판단
+} Page;
+
+typedef struct { // page manager struct
+    Page * pages; // dynamic allocation
+    int allocated_pages; // 총 몇개의 페이지인지
+    int is_memory_loaded; // is making page table finished?
+} PageManager;
+
+// ================ ================ ================
+
+// ================ Function of Frame ================
 
 FrameList * create_empty_frames_list() { // 비어 있는 frame들을 관리하는 양방향 연결 리스트 생성
     FrameList * empty_frames_list = (FrameList *)malloc(sizeof(FrameList));
@@ -191,3 +214,85 @@ void free_empty_frames_list(FrameList * empty_frames_list) {
     }
     free(empty_frames_list);
 }
+
+// ================ ================ ================
+
+// ============ Function of Process Page ============
+
+// 프로그램별 Page Manager 생성
+PageManager * create_page_manager(int total_page_size) { // create page manager, page data는 비어있는 것으로 생성
+    PageManager * page_manager = (PageManager *)malloc(sizeof(PageManager));
+    if (page_manager == NULL) { // error
+        fprintf(stderr, "Page Manager 할당 실패\n");
+        return NULL;
+    }
+    // 프로그램이 필요한 페이지 갯수만큼 페이지 동적 할당
+    page_manager -> pages = (Page *)malloc(total_page_size * sizeof(Page)); 
+
+    if (page_manager -> pages == NULL) { // error
+        fprintf(stderr, "Page Manager에 Page 할당 실패\n");
+        free(page_manager); // 생성된 Page Manager도 없애버리고 return
+        return NULL;
+    }
+    
+    // 프로그램 Page Manager와 프로그램 Page Manager가 관리하는 page들 초기 세팅
+    for (int i = 0; i < total_page_size; i++) {
+        page_manager -> pages[i].page_number = i;
+		page_manager -> pages[i].is_matched_frame = 0;
+    }
+
+    page_manager -> allocated_pages = total_page_size;
+    page_manager -> is_memory_loaded = 0; // not loaded
+
+    return page_manager;
+}
+
+// execute에서 프로그램 읽어온 것과 연결
+void set_page_data(PageManager * page_manager, int total_bytes, unsigned int * byte) {
+    int k = 0;
+
+    for (int i = 0; i < page_manager -> allocated_pages; i++) {
+        for (int j = 0; j < PAGE_SIZE; j++) {
+            if(byte[k])
+            page_manager -> pages[i].data[j] = byte[k];
+            k++;
+        }
+    }
+    printf("[ 총 %d byte, %d page로 분할 ] All pages setting 완료  \n", total_bytes, page_manager -> allocated_pages);
+}
+
+void remove_page_manager(PageManager * page_manager) { // remove page manager
+    free(page_manager -> pages); // free pages
+    free(page_manager); // free page manager
+}
+
+// print 함수 모음
+
+void show_pf_table(PageManager *page_manager, FrameManager *frame_manager) {
+    if (page_manager == NULL) {
+        fprintf(stderr, "PageManager is NULL\n");
+        return;
+    }
+
+    // matching 여부 파악해서 matching 됐으면 페이지 테이블 출력
+    if (page_manager -> is_memory_loaded == 1) {
+        
+        printf("┌────────────┬────────────┐\n");
+        printf("│   Page #   │   Frame #  │\n");
+        printf("├────────────┼────────────┤\n");
+
+        for (int i = 0; i < page_manager->allocated_pages; i++) {
+            printf("│ %-10d │ %-10d │\n", 
+                    page_manager->pages[i].page_number,
+                    page_manager->pages[i].matched_frame
+                    );
+        }
+        printf("└────────────┴────────────┘\n");
+    }
+
+    else {
+        printf("페이지가 프레임과 매칭이 되지 않았습니다.\n");
+    }
+}
+
+// ================ ================ ================

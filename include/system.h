@@ -1,5 +1,6 @@
 // include/linux/sched.h
 //SSU struct task_struct
+#include "structlib.h"
 
 void minisystem();
 
@@ -12,5 +13,4 @@ void * make_dummy_physical_memory();
 int prepare_dummy_physical_memory_reorder(void * start_adr, void * end_adr);
 void memory_view(unsigned char *memory, size_t from, size_t to);
 
-int read_program(char * path);
-int execute();
+void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm);

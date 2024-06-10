@@ -8,7 +8,6 @@
 
 #include "system.h"
 #include "print_util.h"
-#include "structlib.h"
 
 int main() {
     system("clear");
@@ -85,25 +84,10 @@ int main() {
         }
 
         else if (strcmp(input, "execute") == 0) {
-            execute();
+            execute(virtual_physical_memory, fl, fm);
         }
 
         else if (strcmp(input, "terminate") == 0) {
-        }
-
-        // 테스트용
-        else if (strcmp(input, "pop_f") == 0) {
-            printf("첫번째거 팝 완료");
-            get_first_empty_frame(fl, fm);
-        }
-
-
-        else if (strcmp(input, "push") == 0) {
-            int b;
-            printf("몇번 넣어? ");
-            scanf("%d", &b);
-            printf("넣기 완료");
-            add_empty_frame_sorted(fl, fm->frames[b], fm);
         }
 
         else {

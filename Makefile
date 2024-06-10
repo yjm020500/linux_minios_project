@@ -17,7 +17,7 @@ SRCS=kernel/kernel.c \
 	 kernel/mem_s/dummy_memory_management.c \
 	 kernel/program_handle/execute.c \
 	 lib/print_util.c \
-	 lib/frame_struct.c\
+	 lib/structlib.c \
 	  
 OBJS=$(SRCS:.c=.o)
 

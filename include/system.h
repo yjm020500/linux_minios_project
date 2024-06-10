@@ -14,3 +14,4 @@ int prepare_dummy_physical_memory_reorder(void * start_adr, void * end_adr);
 void memory_view(unsigned char *memory, size_t from, size_t to);
 
 void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm);
+void terminate();

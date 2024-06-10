@@ -22,6 +22,8 @@ int main() {
 
     FrameList * fl = create_empty_frames_list();
     FrameManager * fm = create_frame_manager(virtual_physical_memory, fl);
+    ProcessPool * pp = CreateProcessPool();
+    
     //
 
     // 필요할 때 사용하자

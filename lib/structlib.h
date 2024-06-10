@@ -31,6 +31,27 @@ typedef struct {
 
 // ================ ================ ================
 
+// 프로세스 정보를 담는 구조체
+typedef struct Process {
+    PageManager * page_manager;
+    struct Process * next;
+    char process_name[20];
+} Process;
+
+// 링크드 리스트 관리를 위한 구조체
+typedef struct ProcessPool {
+    Process* head;
+} ProcessPool;
+
+ProcessPool * CreateProcessPool(){// 프로세스 풀 생성
+    ProcessPool * pool = (ProcessPool *)malloc(sizeof(ProcessPool));
+    pool->head = NULL;
+
+    return pool;
+}
+
+// ================ ================ ================
+
 typedef struct { // page struct
     unsigned int data[PAGE_SIZE];
     int page_number;
@@ -61,6 +82,14 @@ void first_frame_list_set(FrameList * empty_frames_list, Frame frame);
 
 void free_frame_manager(FrameManager * frame_manager);
 void free_empty_frames_list(FrameList * empty_frames_list);
+
+// ================ ================ ================
+
+ProcessPool * CreateProcessPool();
+void addProcess(ProcessPool* pool, PageManager* page_manager, char* name);
+void removeProcess(ProcessPool* pool, char* name);
+void printProcesses(ProcessPool* pool);
+void freeProcessPool(ProcessPool* pool);
 
 // ================ ================ ================
 

@@ -3,6 +3,8 @@
 #include <string.h>
 #include "system.h"
 
+int pane = 2; // pane 제어 전역변수
+
 void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm) {
     char path[30]; // 프로그램 이름을 저장할 배열
     char full_path[40];
@@ -13,6 +15,11 @@ void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm) 
     int i = 0; // 프로그램 binary 읽어올 때 interate 변수 (for문에서 쓰는)
 
     int total_pages = 0;
+
+    if(pane > 5) {
+        print_minios("\n 프로그램을 실행할 공간이 없습니다. \n");
+        return;
+    }
 
     printf("실행할 프로그램을 입력하세요 : ");
     scanf("%s", path); // 사용자로부터 파일 이름을 입력 받음
@@ -119,11 +126,12 @@ void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm) 
     
     memory_view(virtual_physical_memory, 0, 20);
 
-    char tmux_command[256];
+    char tmux_command[64];
     const char * terminal = "terminal";
-    const char * pane = "2";
-    snprintf(tmux_command, sizeof(tmux_command), "tmux send-keys -t %s.%s './%s' C-m", terminal, pane, full_path);
+    // const char * pane = "2";
+    snprintf(tmux_command, sizeof(tmux_command), "tmux send-keys -t %s.%d './%s' C-m", terminal, pane, full_path);
     system(tmux_command);
+    pane++;
 
     return;
 }

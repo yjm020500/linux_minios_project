@@ -53,11 +53,13 @@ void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm) 
     
     memory_view(virtual_physical_memory, 0, 20);
 
-    char tmux_command[256];
+//  kill로 바꿔야함
+    char tmux_command[64];
     const char * terminal = "terminal";
-    const char * pane = "2";
-    snprintf(tmux_command, sizeof(tmux_command), "tmux send-keys -t %s.%s './%s' C-m", terminal, pane, full_path);
+    // const char * pane = "2";
+    snprintf(tmux_command, sizeof(tmux_command), "tmux send-keys -t %s.%d './%s' C-m", terminal, pane, full_path);
     system(tmux_command);
+    pane--;
 
     return;
 }

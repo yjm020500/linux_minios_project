@@ -394,4 +394,13 @@ void show_pf_table(PageManager *page_manager, FrameManager *frame_manager) {
     }
 }
 
+void show_pp(ProcessPool* pp){
+	printf("───────────────────────────\n");
+        printf("        Process Pool       \n");
+        printf("───────────────────────────\n");
+
+	printProcesses(pp);
+
+	printf("───────────────────────────\n");
+}
 // ================ ================ ================

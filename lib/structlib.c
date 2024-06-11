@@ -298,7 +298,7 @@ void removeProcess(ProcessPool* pool, char* name) {
 void printProcesses(ProcessPool* pool) {
     Process* current = pool->head;
     while (current != NULL) {
-        printf("process name: %s \n", current->process_name);
+        printf(" %s \n", current->process_name);
         current = current->next;
     }
 }
@@ -395,7 +395,7 @@ void show_pf_table(PageManager *page_manager, FrameManager *frame_manager) {
 }
 
 void show_pp(ProcessPool* pp){
-	printf("───────────────────────────\n");
+	printf("\n───────────────────────────\n");
         printf("        Process Pool       \n");
         printf("───────────────────────────\n");
 

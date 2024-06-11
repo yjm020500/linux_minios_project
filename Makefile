@@ -16,6 +16,7 @@ SRCS=kernel/kernel.c \
 	 kernel/mem_s/mem_allocate.c \
 	 kernel/mem_s/dummy_memory_management.c \
 	 kernel/program_handle/execute.c \
+	 kernel/program_handle/terminate.c \
 	 lib/print_util.c \
 	 lib/structlib.c \
 	  

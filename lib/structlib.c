@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "print_util.h"
 
 #define PAGE_SIZE 4096 // 4KB 페이지 크기
 
@@ -58,12 +59,13 @@ typedef struct { // page manager struct
 typedef struct Process {
     PageManager * page_manager;
     struct Process * next;
-    char process_name[20];
+    char process_name[30];
+    int pane_num;
 } Process;
 
 // 링크드 리스트 관리를 위한 구조체
 typedef struct ProcessPool {
-    Process* head;
+    Process * head;
 } ProcessPool;
 
 // ================ ================ ================
@@ -243,12 +245,13 @@ ProcessPool * CreateProcessPool(){// 프로세스 풀 생성
 }
 
 // 링크드 리스트에 프로세스 추가
-void addProcess(ProcessPool* pool, PageManager* page_manager, char* name) {
+void addProcess(ProcessPool* pool, PageManager* page_manager, char* name, int pane_num) {
     // 새로운 프로세스를 생성 (리스트의 Node 임)
     Process * newProcess = (Process*)malloc(sizeof(Process));
     newProcess->page_manager = page_manager;
     newProcess->next = NULL;
     strcpy(newProcess->process_name, name);
+    newProcess->pane_num = pane_num;
 
     // 리스트가 비어있다면 새로운 프로세스를 헤드로 지정
     if (pool->head == NULL) {
@@ -265,33 +268,36 @@ void addProcess(ProcessPool* pool, PageManager* page_manager, char* name) {
 }
 
 // 링크드 리스트에서 특정 프로세스를 제거
-void removeProcess(ProcessPool* pool, char* name) {
-    Process* current = pool->head;
-    Process* prev = NULL;
+Process * removeProcess(ProcessPool * pool, char* name) {
+    Process * current = pool -> head;
+    Process * prev = NULL;
+    Process * error = NULL;
 
     // 헤드에서 시작하여 해당 Process name을 가진 프로세스 찾기
-    while (current != NULL && current->process_name != name) {
+    while ((current != NULL) && (strcmp(current->process_name, name) != 0 )) {
         prev = current;
-        current = current->next;
+        current = current -> next;
     }
 
     // 특정 Process name을 가진 프로세스를 찾지 못한 경우
     if (current == NULL) {
-        printf("Process not found.\n");
-        return;
+        print_minios("입력한 프로그램은 현재 실행 중이지 않습니다. \n");
+        return error;
     }
 
     // 특정 Process name을 가진 프로세스를 찾은 경우
     // 이전 노드와 다음 노드를 연결하고 해당 노드 메모리 해제
     if (prev == NULL) {
         // 삭제할 노드가 헤드인 경우
-        pool->head = current->next;
+        pool -> head = current -> next;
     } else {
         // 삭제할 노드가 헤드가 아닌 경우
-        prev->next = current->next;
+        prev -> next = current -> next;
     }
-    free(current);
-    printf("Process %s is removed from pool.\n", name);
+ 
+    printf("\n[ %s ] is removed from process pool. \n\n", name);
+
+    return current;
 }
 
 // 링크드 리스트에 있는 모든 프로세스 정보 출력
@@ -313,7 +319,6 @@ void freeProcessPool(ProcessPool* pool) {
     }
     pool->head = NULL;
 }
-
 
 // ================ ================ ================
 

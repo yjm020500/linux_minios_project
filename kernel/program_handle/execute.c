@@ -3,7 +3,15 @@
 #include <string.h>
 #include "system.h"
 
-int pane = 2; // pane 제어 전역변수
+int get_first_available_pane(int * pane_arr) {
+    for (int index = 0; index < 4; index++) {
+        if (*(pane_arr + index) == 0) {
+            *(pane_arr + index) = 1;
+            return index + 2; // 인덱스가 0이면 pane 2, 인덱스가 1이면 pane 3, 등등
+        }
+    }
+    return -1; // 모든 pane이 사용 중인 경우
+}
 
 void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, ProcessPool * pp) {
     char path[30]; // 프로그램 이름을 저장할 배열
@@ -15,8 +23,9 @@ void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, 
     int i = 0; // 프로그램 binary 읽어올 때 interate 변수 (for문에서 쓰는)
 
     int total_pages = 0;
+    int pane_num = get_first_available_pane(pane_arr);
 
-    if(pane > 5) {
+    if(pane_num == -1) {
         print_minios("\n 프로그램을 실행할 공간이 없습니다. \n");
         return;
     }
@@ -25,22 +34,21 @@ void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, 
     scanf(" %s", path); // 사용자로부터 파일 이름을 입력 받음
 
     // 프로그램 중복 실행 검사
-    Process *tmp = pp->head;
+    Process * tmp = pp -> head;
     while (tmp != NULL) {
-        if (!strcmp(tmp->process_name, path)) {
+        if (!strcmp(tmp -> process_name, path)) {
             printf("\n \"%s\"는 이미 실행 중인 프로그램입니다. \n\n", path);
             return;
         }
-        tmp = tmp->next;
+        tmp = tmp -> next;
     }
-    free(tmp);
 
     strcpy(full_path, "program/");
     strcat(full_path, path);
 
     FILE * fp = fopen(full_path, "rb");
     if (fp == NULL) {
-        printf("디렉토리에 해당 프로그램이 존재하지 않습니다. \n");
+        printf("\n 디렉토리에 해당 프로그램이 존재하지 않습니다. \n\n");
         perror("fopen");
         return;
     }
@@ -57,7 +65,7 @@ void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, 
         printf("읽어온 바이트 값을 출력하시겠습니까? (y/n) : ");
         scanf(" %c", &select);
         if (select == 'y' || select == 'n') break;
-        else printf("잘못된 입력입니다. 다시 입력해주세요.");
+        else printf("잘못된 입력입니다. 다시 입력해주세요. \n\n");
     }
     
     while (((byte[i] = fgetc(fp)) != EOF)) {
@@ -101,8 +109,7 @@ void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, 
 
     free(byte);
 
-    // fill_frames(virtual_physical_memory, page_manager, fl, fm, byte);
-
+    // 메모리에 값 적재
     if (count_empty_frames(fl) < page_manager -> allocated_pages) {
         printf("Not enough Frames \n");
         printf("Waiting Queue 미구현 ... \n");
@@ -129,21 +136,18 @@ void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, 
     print_minios("");
     print_minios("======================================== \n");
 
+    // kernel에서 보여지는 영역 시작
     page_manager -> is_memory_loaded = 1;
     show_pf_table(page_manager, fm);
-    // 프로세서 pool에 넣는다.
-    addProcess(pp, page_manager, path);
-
+    addProcess(pp, page_manager, path, pane_num); // 프로세서 pool에 넣는다.
     print_minios("프로그램 적재(loading) 완료 \n");
-    
     memory_view(virtual_physical_memory, 0, 20);
 
     char tmux_command[64];
     const char * terminal = "terminal";
     // const char * pane = "2";
-    snprintf(tmux_command, sizeof(tmux_command), "tmux send-keys -t %s.%d './%s' C-m", terminal, pane, full_path);
+    snprintf(tmux_command, sizeof(tmux_command), "tmux send-keys -t %s.%d './%s' C-m", terminal, pane_num, full_path);
     system(tmux_command);
-    pane++;
 
     return;
 }

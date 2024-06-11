@@ -50,7 +50,8 @@ typedef struct { // page manager struct
 typedef struct Process {
     PageManager * page_manager;
     struct Process * next;
-    char process_name[20];
+    char process_name[30];
+    int pane_num;
 } Process;
 
 // 링크드 리스트 관리를 위한 구조체
@@ -77,8 +78,8 @@ void free_empty_frames_list(FrameList * empty_frames_list);
 // ================ ================ ================
 
 ProcessPool * CreateProcessPool();
-void addProcess(ProcessPool * pool, PageManager * page_manager, char * name);
-void removeProcess(ProcessPool * pool, char * name);
+void addProcess(ProcessPool * pool, PageManager * page_manager, char * name, int pane_num);
+Process * removeProcess(ProcessPool * pool, char * name);
 void printProcesses(ProcessPool * pool);
 void freeProcessPool(ProcessPool * pool);
 void show_pp(ProcessPool * pp);
@@ -94,5 +95,3 @@ void show_page_status(PageManager* page_manager, int page_num);
 void show_pf_table(PageManager *page_manager, FrameManager *frame_manager);
 
 // ================ ================ ================
-
-void show_pp(ProcessPool* pp);

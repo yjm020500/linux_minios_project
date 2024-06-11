@@ -9,6 +9,9 @@
 #include "system.h"
 #include "print_util.h"
 
+int pane_arr[4] = {0, 0, 0, 0}; // pane 제어 전역변수
+//                 2  3  4  5  번 pane
+
 int main() {
     system("clear");
     char * input;
@@ -46,7 +49,12 @@ int main() {
         if (strcmp(input,"exit") == 0) {
             printWithDelay("Bye, See you next time.", 30000);
             sleep(1);
+
             free(input);
+            freeProcessPool(pp);
+            free_frame_manager(fm) ;
+            free_empty_frames_list(fl);
+
             system("tmux kill-session -t terminal");
             break;
         }
@@ -90,6 +98,7 @@ int main() {
         }
 
         else if (strcmp(input, "terminate") == 0) {
+            terminate(virtual_physical_memory, fl, fm, pp);
         }
 
         else {

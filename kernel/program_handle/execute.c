@@ -5,7 +5,7 @@
 
 int pane = 2; // pane 제어 전역변수
 
-void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, ProcessPool* pp) {
+void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, ProcessPool * pp) {
     char path[30]; // 프로그램 이름을 저장할 배열
     char full_path[40];
 
@@ -120,7 +120,7 @@ void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, 
 
     page_manager -> is_memory_loaded = 1;
     show_pf_table(page_manager, fm);
-    // 프로세스를 pool에 넣는다.
+    // 프로세서 pool에 넣는다.
     addProcess(pp, page_manager, path);
 
     print_minios("프로그램 적재(loading) 완료 \n");

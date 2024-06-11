@@ -314,6 +314,16 @@ void freeProcessPool(ProcessPool* pool) {
     pool->head = NULL;
 }
 
+void show_pp(ProcessPool* pp){
+	printf("\n───────────────────────────\n");
+        printf("        Process Pool       \n");
+        printf("───────────────────────────\n");
+
+	printProcesses(pp);
+
+	printf("───────────────────────────\n\n");
+}
+
 // ================ ================ ================
 
 // ============ Function of Process Page ============

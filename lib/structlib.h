@@ -77,10 +77,11 @@ void free_empty_frames_list(FrameList * empty_frames_list);
 // ================ ================ ================
 
 ProcessPool * CreateProcessPool();
-void addProcess(ProcessPool* pool, PageManager* page_manager, char* name);
-void removeProcess(ProcessPool* pool, char* name);
-void printProcesses(ProcessPool* pool);
-void freeProcessPool(ProcessPool* pool);
+void addProcess(ProcessPool * pool, PageManager * page_manager, char * name);
+void removeProcess(ProcessPool * pool, char * name);
+void printProcesses(ProcessPool * pool);
+void freeProcessPool(ProcessPool * pool);
+void show_pp(ProcessPool * pp);
 
 // ================ ================ ================
 

@@ -33,6 +33,7 @@ void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, 
         }
         tmp = tmp->next;
     }
+    free(tmp);
 
     strcpy(full_path, "program/");
     strcat(full_path, path);

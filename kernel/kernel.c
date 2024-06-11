@@ -57,7 +57,7 @@ int main() {
 
         else if (strcmp(input, "help") == 0) {
             print_minios("Sorry, It will be implemented soon.");
-            print_minios("");
+            print_minios("\n");
         }
 
         else if (strcmp(input, "show_m") == 0) {
@@ -79,10 +79,6 @@ int main() {
         
         else if (strcmp(input, "show_efl") == 0) {
             print_empty_frames_list(fl);
-        }
-
-        else if (strcmp(input, "show_pt") == 0) {
-
         }
 
         else if(strcmp(input, "show_pp") == 0){

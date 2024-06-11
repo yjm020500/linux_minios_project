@@ -51,6 +51,7 @@ void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, 
     if (fp == NULL) {
         printf("\n 디렉토리에 해당 프로그램이 존재하지 않습니다. \n\n");
         perror("fopen");
+        release_pane(pane_arr, pane_num);
         return;
     }
 
@@ -105,6 +106,7 @@ void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, 
     // 입력한 프로그램의 page manager 생성
     PageManager * page_manager = create_page_manager(total_pages);
     // page manageer 세팅 하고 페이지 테이블 생성
+    print_minios("");
     set_page_data(page_manager, total_bytes, byte);
     printf("[ %s ] Program Page manager setting 완료 \n\n", path);
 
@@ -119,6 +121,7 @@ void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, 
 
         enqueue(wq, page_manager, path); // 대기 큐로 프로그램을 보냄
         printf(" [ %s ] program 이 대기 큐에 추가되었습니다 \n\n", path);
+        release_pane(pane_arr, pane_num);
         return;
     }
 
@@ -137,13 +140,13 @@ void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, 
         printf(" [ %d번 page => %d번 frame에 매핑 ] \n", page_manager -> pages[i].page_number, page_manager -> pages[i].matched_frame);
     }
     print_minios("");
-    print_minios("======================================== \n");
+    print_minios("\n======================================== \n\n");
 
     // kernel에서 보여지는 영역 시작
     page_manager -> is_memory_loaded = 1;
     show_pf_table(page_manager, fm);
     addProcess(pp, page_manager, path, pane_num); // 프로세서 pool에 넣는다.
-    print_minios("프로그램 적재(loading) 완료 \n");
+    print_minios("\n프로그램 적재(loading) 완료 \n");
     memory_view(virtual_physical_memory, 0, 20);
 
     char tmux_command[64];

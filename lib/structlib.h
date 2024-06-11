@@ -90,8 +90,6 @@ PageManager * create_page_manager(int total_page_size);
 void set_page_data(PageManager * page_manager, int total_bytes, unsigned int * byte);
 void remove_page_manager(PageManager * page_manager);
 
-void show_total_page_status(PageManager * page_manager);
-void show_page_status(PageManager* page_manager, int page_num);
 void show_pf_table(PageManager *page_manager, FrameManager *frame_manager);
 
 // ================ ================ ================

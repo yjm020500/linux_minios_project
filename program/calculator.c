@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 
-void main()
+int main()
 {
     int chara;
     int number; int num1; int num2;
@@ -25,4 +25,6 @@ void main()
         number=num1/num2;
     }
     printf("result : %d \n", number);
+
+    return 0;
 }

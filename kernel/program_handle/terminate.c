@@ -55,6 +55,7 @@ void terminate(void * virtual_physical_memory, FrameList * fl, FrameManager * fm
     system(tmux_command);
 
 
+    // 프로세스 하나 terminate 하면 대기큐를 "한바퀴" 순회하고
     int dequeue_num = 0;
     int size = queue_size(wq);
 
@@ -108,8 +109,10 @@ void terminate(void * virtual_physical_memory, FrameList * fl, FrameManager * fm
 
             dequeue_num++;
         } else {
-            printf("메모리에 적재 불가능... \n\n");
+            printf("메모리에 적재 불가능 ! \n");
+            printf("다시 대기큐로 돌아갑니다. \n\n");
             enqueue(wq, first_dequeued->page_manager, first_dequeued->process_name);
+            release_pane(pane_arr, pane_num);
             dequeue_num++;
         }
     }

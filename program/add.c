@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void main() {
+int main() {
     int x, y;
 
     printf("첫 번째 값을 입력하세요: ");
@@ -9,4 +9,6 @@ void main() {
     scanf("%d", &y);
 
 	printf("%d + %d = %d\n", x, y, x + y);
+
+    return 0;
 }

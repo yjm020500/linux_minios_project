@@ -90,7 +90,7 @@ int main() {
         }
 
         else if (strcmp(input, "execute") == 0) {
-            execute(virtual_physical_memory, fl, fm);
+            execute(virtual_physical_memory, fl, fm, pp);
         }
 
         else if (strcmp(input, "terminate") == 0) {

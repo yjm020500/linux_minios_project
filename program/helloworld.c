@@ -1,5 +1,5 @@
 #include <stdio.h>
-#incldue <stdlib.h>
+#include <stdlib.h>
 
 int mian(void){
  while(1){

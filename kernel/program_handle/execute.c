@@ -13,7 +13,7 @@ int get_first_available_pane(int * pane_arr) {
     return -1; // 모든 pane이 사용 중인 경우
 }
 
-void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, ProcessPool * pp) {
+void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, ProcessPool * pp, WaitingQueue * wq) {
     char path[30]; // 프로그램 이름을 저장할 배열
     char full_path[40];
 
@@ -38,6 +38,7 @@ void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, 
     while (tmp != NULL) {
         if (!strcmp(tmp -> process_name, path)) {
             printf("\n \"%s\"는 이미 실행 중인 프로그램입니다. \n\n", path);
+            release_pane(pane_arr, pane_num);
             return;
         }
         tmp = tmp -> next;
@@ -112,11 +113,13 @@ void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, 
     // 메모리에 값 적재
     if (count_empty_frames(fl) < page_manager -> allocated_pages) {
         printf("Not enough Frames \n");
-        printf("Waiting Queue 미구현 ... \n");
-        // 생성하였던 모든 프로그램 관련 동적할당 메모리 반환
-        remove_page_manager(page_manager); 
+        // printf("Waiting Queue 미구현 ... \n");
+        // // 생성하였던 모든 프로그램 관련 동적할당 메모리 반환
+        // remove_page_manager(page_manager); 
+
+        enqueue(wq, page_manager, path); // 대기 큐로 프로그램을 보냄
+        printf(" [ %s ] program 이 대기 큐에 추가되었습니다 \n\n", path);
         return;
-        // 대기 Queue로 가야함
     }
 
     print_minios("======================================== \n");

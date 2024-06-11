@@ -26,6 +26,7 @@ int main() {
     FrameList * fl = create_empty_frames_list();
     FrameManager * fm = create_frame_manager(virtual_physical_memory, fl);
     ProcessPool * pp = CreateProcessPool();
+    WaitingQueue * wq = create_waiting_queue();
     
     //
 
@@ -94,11 +95,11 @@ int main() {
         }
 
         else if (strcmp(input, "execute") == 0) {
-            execute(virtual_physical_memory, fl, fm, pp);
+            execute(virtual_physical_memory, fl, fm, pp, wq);
         }
 
         else if (strcmp(input, "terminate") == 0) {
-            terminate(virtual_physical_memory, fl, fm, pp);
+            terminate(virtual_physical_memory, fl, fm, pp, wq);
         }
 
         else {

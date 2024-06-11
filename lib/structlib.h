@@ -95,3 +95,20 @@ void show_page_status(PageManager* page_manager, int page_num);
 void show_pf_table(PageManager *page_manager, FrameManager *frame_manager);
 
 // ================ ================ ================
+
+typedef struct WaitingNode {
+    PageManager *page_manager;
+    char process_name[20];
+    struct WaitingNode *next;
+} WaitingNode;
+
+typedef struct WaitingQueue {
+    WaitingNode *front;
+    WaitingNode *rear;
+} WaitingQueue;
+
+WaitingQueue* create_waiting_queue();
+void enqueue(WaitingQueue *queue, PageManager *page_manager, const char *process_name);
+WaitingNode* dequeue(WaitingQueue *queue);
+int is_waiting_queue_empty(WaitingQueue *queue);
+int queue_size(WaitingQueue * queue);

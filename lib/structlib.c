@@ -410,3 +410,72 @@ void show_pp(ProcessPool* pp){
 	printf("───────────────────────────\n");
 }
 // ================ ================ ================
+
+
+// ============ Waitint Queue ============
+
+// 대기 큐 노드 구조체
+typedef struct WaitingNode {
+    PageManager *page_manager;
+    char process_name[20];
+    struct WaitingNode *next;
+} WaitingNode;
+
+// 대기 큐 구조체
+typedef struct WaitingQueue {
+    WaitingNode *front;
+    WaitingNode *rear;
+} WaitingQueue;
+
+// 대기 큐 초기화 함수
+WaitingQueue* create_waiting_queue() {
+    WaitingQueue *queue = (WaitingQueue *)malloc(sizeof(WaitingQueue));
+    queue->front = queue->rear = NULL;
+    return queue;
+}
+
+// 대기 큐에 프로세스 추가 함수
+void enqueue(WaitingQueue *queue, PageManager *page_manager, const char *process_name) {
+    WaitingNode *new_node = (WaitingNode *)malloc(sizeof(WaitingNode));
+    new_node->page_manager = page_manager;
+    strcpy(new_node->process_name, process_name);
+    new_node->next = NULL;
+
+    if (queue->rear == NULL) {
+        queue->front = queue->rear = new_node;
+        return;
+    }
+
+    queue->rear->next = new_node;
+    queue->rear = new_node;
+}
+
+// 대기 큐에서 프로세스 제거 함수
+WaitingNode* dequeue(WaitingQueue *queue) {
+    if (queue->front == NULL) return NULL;
+
+    WaitingNode *temp = queue->front;
+    queue->front = queue->front->next;
+
+    if (queue->front == NULL) queue->rear = NULL;
+
+    return temp;
+}
+
+// 대기 큐가 비었는지 확인하는 함수
+int is_waiting_queue_empty(WaitingQueue *queue) {
+    return queue->front == NULL;
+}
+
+// queue_size 함수: 큐에 들어있는 요소의 수를 반환
+int queue_size(WaitingQueue * queue) {
+    int count = 0;
+    WaitingNode *current = queue->front;
+
+    while (current != NULL) {
+        count++;
+        current = current->next;
+    }
+
+    return count;
+}

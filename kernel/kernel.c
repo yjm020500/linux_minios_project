@@ -85,6 +85,10 @@ int main() {
 
         }
 
+        else if(strcmp(input, "show_pp") == 0){
+            show_pp(pp);
+        }
+
         else if (strcmp(input, "execute") == 0) {
             execute(virtual_physical_memory, fl, fm);
         }

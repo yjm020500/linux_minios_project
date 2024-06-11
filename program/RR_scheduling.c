@@ -21,7 +21,7 @@ struct Process processes[N];
 
 int main() {  //main
     while(1){
-        int num
+        int num;
         printf("if you want to start, enter 1\n");
         scanf("%d", &num);
         if(num == 1) {break;}

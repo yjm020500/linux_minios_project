@@ -70,7 +70,7 @@ void terminate(void * virtual_physical_memory, FrameList * fl, FrameManager * fm
         }
 
         WaitingNode * first_dequeued = dequeue(wq);
-        printf("첫번째 대기프로세스 [ %s ] dequeued! \n" , first_dequeued->process_name);
+        printf("첫번째 대기 프로세스 [ %s ] dequeued! \n" , first_dequeued->process_name);
         printf("필요한 frame 수 [ %d ] / 현재 가용 가능한 frame 수 [ %d ] \n\n" , first_dequeued->page_manager->allocated_pages, count_empty_frames(fl));
 
         if ( first_dequeued -> page_manager -> allocated_pages <= count_empty_frames(fl) ) {
@@ -90,13 +90,14 @@ void terminate(void * virtual_physical_memory, FrameList * fl, FrameManager * fm
 
                 printf(" [ %d번 page => %d번 frame에 매핑 ] \n", 
                 first_dequeued -> page_manager -> pages[i].page_number, first_dequeued -> page_manager -> pages[i].matched_frame);
-             }
+            }
+            print_minios("");
 
             // kernel에서 보여지는 영역 시작
             first_dequeued -> page_manager -> is_memory_loaded = 1;
             show_pf_table(first_dequeued -> page_manager, fm);
             addProcess(pp, first_dequeued->page_manager, first_dequeued->process_name, pane_num); // 프로세서 pool에 넣는다.
-            print_minios("프로그램 적재(loading) 완료 \n");
+            print_minios("\n프로그램 적재(loading) 완료 \n");
             memory_view(virtual_physical_memory, 0, 20);
 
             char tmux_command[64];

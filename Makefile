@@ -25,8 +25,10 @@ OBJS=$(SRCS:.c=.o)
 #Include directory
 INCLUDE_DIR=include
 
-#$(FORK_PROGRAM)... 추후에 추가 $(OBJS)->$^
-all: $(TARGET1) $(TARGET2) 
+PROGRAM_SRCS=$(wildcard program/*.c)
+PROGRAM_EXES=$(PROGRAM_SRCS:.c=)
+
+all: $(TARGET1) $(TARGET2) $(PROGRAM_EXES)
 
 $(TARGET1): boot/boot.o
 	$(CC) $(CFLAGS) -o $(TARGET1) boot/boot.o $(LDFLAGS)
@@ -34,9 +36,9 @@ $(TARGET1): boot/boot.o
 $(TARGET2): $(OBJS)
 	$(CC) $(CFLAGS) -o $(TARGET2) $(OBJS) $(LDFLAGS)
 
-# Make fork program... 추후에 추가
-#$(FORK_CHILD_PROGRAM): kernel/20192490/print_os_name.o
-#	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+# Compile program folder .c files to executables
+program/%: program/%.c
+	$(CC) -Wall -Iinclude -Ilib -o $@ $<
 
 # To obtain object files
 %.o: %.c
@@ -44,4 +46,4 @@ $(TARGET2): $(OBJS)
 
 # Clean up:
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(OBJS) $(TARGET) $(PROGRAM_EXES)

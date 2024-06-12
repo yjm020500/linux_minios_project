@@ -1,28 +1,27 @@
-# Team1. miniOS
+# Team 1 OS Project
 
-## Memory Management Simulation
+2024년도 2학기 운영체제 강의의 프로젝트입니다. 운영체제 강의를 수강하며, 강의 초반부에 프로세스와 스케줄링 관련한 강의와 학습은 오랜 시간 진행하였지만 메모리 관리 내용에 관해서는 과제 수행 및 추가 학습을 깊게 하지 못하여 본 프로젝트를 진행하였습니다. 
 
-miniOS-project/  
-├── README.md # 프로젝트 설명 및 사용 방법 문서  
-├── Makefile # 전체 프로젝트 빌드 자동화를 위한 메이크파일  
-├── boot/ # 부트로더 소스 코드  
-O └── boot.asm # 부트로더 어셈블리 코드  
-├── kernel/ # 커널 소스 코드  
-O ├── kernel.c # 커널 메인 C 소스 파일  
-O └── ...  
-├── drivers/ # 디바이스 드라이버 코드  
-O └── ...  
-├── lib/ # 커널 라이브러리 및 공통 유틸리티  
-O └── ...  
-├── include/ # 헤더 파일  
-O ├── kernel.h # 커널 관련 공통 헤더  
-O ├── drivers/ # 드라이버 헤더 파일  
-O └── lib/ # 라이브러리 헤더 파일  
-└── scripts/ # 빌드 및 유틸리티 스크립트  
-O ├── build.sh # 빌드 스크립트  
-O └── run_qemu.sh # QEMU를 통해 OS 이미지 실행 스크립트  
-├── boot_os # 화면 부팅 프로그램 (최초 실행)
+>본 프로젝트는 메모리 관리 기능을 GUI(Graphic User Interface)를 통해 시각적으로 제공함으로써, 사용자들이 보다 쉽게 시스템의 메모리 상태를 이해하고 관리할 수 있도록 하는 것을 목표로 합니다.
 
-├── minios # 메모리 관리 시뮬레이션 프로그램
+# Simulator flow
 
-└── remove_all_object # 전체 오브젝트 파일 삭제하는 프로그램 (사용법 - ./remove_all_object)
+
+## [ Memory Management Simulator ] 실행 방법
+1. Terminal을 실행합니다.
+
+2. `https://github.com/K-Hwoo/os_project.git` 를 입력하여 git을 클론 합니다.
+
+3. `cd os_project` 를 입력하여 폴더를 이동 합니다.
+
+4. `make`를 입력하여 프로그램(코드)를 빌드합니다.
+
+5. `./powerOn` 을 입력하여 부팅 프로그램을 실행합니다.
+ 
+    → 맨 왼쪽의 Terminal 영역에서 `./minios`의 입력을 대기합니다. 
+
+<img src="/images/powerOn.png"  width="700" height="550">
+
+6.  ./minios 를 입력하여 minios 프로그램을 실행 합니다.
+
+<img src="/images/minios.png"  width="700" height="550">

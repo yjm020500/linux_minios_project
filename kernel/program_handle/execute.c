@@ -140,7 +140,7 @@ void execute(void * virtual_physical_memory, FrameList * fl, FrameManager * fm, 
         printf(" [ %d번 page => %d번 frame에 매핑 ] \n", page_manager -> pages[i].page_number, page_manager -> pages[i].matched_frame);
     }
     print_minios("");
-    print_minios("\n======================================== \n\n");
+    print_minios("======================================== \n");
 
     // kernel에서 보여지는 영역 시작
     page_manager -> is_memory_loaded = 1;

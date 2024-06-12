@@ -80,7 +80,7 @@ execute와 terminate 명령어 입력 후 입력받는 인자에서 다음과 �
 
 1. Terminal을 실행합니다.
 
-2. `https://github.com/K-Hwoo/os_project.git` 를 입력하여 git을 클론 합니다.
+2. `git clone https://github.com/K-Hwoo/os_project.git` 을 입력하여 git을 클론 합니다.
 
 3. `cd os_project` 를 입력하여 폴더를 이동 합니다.
 

@@ -4,11 +4,11 @@
 
 <br/>
 
->본 프로젝트는 메모리 관리 기능을 GUI(Graphic User Interface)를 통해 시각적으로 제공함으로써, 사용자들이 보다 쉽게 시스템의 메모리 상태를 이해하고 관리할 수 있도록 하는 것을 목표로 합니다.
+>메모리 [ Paging ] 개념을 구현하고자 하였으며 paging 구현을 위해 필요한 자료구조와 이를 제어하는 함수, 알고리즘을 제작하였습니다.
 
 <br/>
 
->메모리 [ Paging ] 개념을 구현하고자 하였으며 paging 구현을 위해 필요한 자료구조와 이를 제어하는 함수, 알고리즘을 제작하였습니다.
+>본 프로젝트는 메모리 관리 기능을 GUI(Graphic User Interface)를 통해 시각적으로 제공함으로써, 사용자들이 보다 쉽게 시스템의 메모리 상태를 이해하고 관리할 수 있도록 하는 것을 목표로 합니다.
 
 
 # Simulator Flow
@@ -17,7 +17,7 @@ minios 프로그램 상에서 64KB 메모리 공간을 할당 받아 이를 Pagi
 
 minios 실행시 Frame Manager, (Available) Frame List, Process Pool, Waiting Queue를 생성하여 minios 종료시까지 본 프로그램에서 다루어지는 모든 자료구조, 구조체, 함수, 데이터를 유지 · 관리 · 보수 합니다.
 
-execute 커맨드를 통해 실행하고자 하는 프로그램을 읽어 Page 단위로 나누고 Page Manager (Page table을 만드는 과정이라고 보아도 됨)를 세팅하여 메모리에 적재하면 Program Monitor에서 이 프로그램이 실행되는 모습을 확인할 수 있습니다.
+execute 커맨드를 통해 실행하고자 하는 프로그램을 읽어 Page 단위로 나누고 Page Manager를 세팅 (Page table을 만드는 과정이라고 보아도 됩니다.) 하여 메모리에 적재하면 Program Monitor에서 이 프로그램이 실행되는 모습을 확인할 수 있습니다.
 
 <br/>
 
@@ -27,12 +27,12 @@ execute 커맨드를 통해 실행하고자 하는 프로그램을 읽어 Page �
 - 할당 가능한 frame의 수가 부족할 때 → 대기큐로 들어감
 <br/>
 
-프로세스 풀을 참조하여 (하지 않아도 됨) 현재 메모리에 적재된 프로세스들을 확인할 수 있습니다.
+프로세스 풀을 통해 현재 메모리에 적재된 프로세스들을 확인할 수 있습니다.
 
-terminate 커맨드를 통해 현재 실행중인 프로그램을 종료시킬 수 있습니다. 프로세스 풀에서 종료하고자 하는 프로그램을 제거 하고 할당 되었던 메모리 영역을 반환한 뒤 메모리 공간의 값을 0x00 으로 초기화 합니다. Program Monitor에서도 제거됩니다. (pane 공간을 반환) 모든 작업 수행 후 waiting Queue를 한바퀴 순회하며 할당 가능한 프로세스들(Page manager가 모두 세팅된 상태로 Queue에 전달되기 때문에 바로 할당 하는 로직만 수행해 주면 됨)을 모두 메모리에 적재 합니다. 이 때도 적재 불가능한 프로그램은 다시 waiting Queue에 enqueue 합니다.
+terminate 커맨드를 통해 현재 실행중인 프로그램을 종료시킬 수 있습니다. 프로세스 풀에서 종료하고자 하는 프로그램을 제거 하고 할당 되었던 메모리 영역을 반환한 뒤 메모리 공간의 값을 0x00 으로 초기화 합니다. Program Monitor에서도 제거됩니다. (pane 공간을 반환) 모든 작업 수행 후 waiting Queue를 한바퀴 순회하며 할당 가능한 프로세스들 (Page manager가 모두 세팅된 상태로 Queue에 전달되기 때문에 바로 할당 하는 로직만 수행해 주면 됩니다.) 을 모두 메모리에 적재 합니다. 이 때도 적재 불가능한 프로그램은 다시 waiting Queue에 enqueue 합니다.
  
 
-### Simulator Command
+### Simulator Command |
 
 - **help** - 사용 가능항 명령어 리스트를 볼 수 있습니다. (미구현)
 
@@ -54,9 +54,9 @@ terminate 커맨드를 통해 현재 실행중인 프로그램을 종료시킬 �
 
   → 인자로 프로그램 이름을 입력 받음
 
-<br/>
+
   
-### Program Bundle 
+### Program Bundle |
 
 시뮬레이터에서 기본적으로 제공하는 프로그램 번들입니다!
 
@@ -75,6 +75,12 @@ execute와 terminate 명령어 입력 후 입력받는 인자에서 다음과 �
 
 
 ## Memory Management Simulator  실행 방법
+0. tmux가 설치되어 있어야 합니다.
+  
+    → Linux : sudo apt install tmux
+  
+    → MacOS : brew install tmux (MacOS 용 패키지 관리자 homebrew가 필요합니다.)
+
 1. Terminal을 실행합니다.
 
 2. `https://github.com/K-Hwoo/os_project.git` 를 입력하여 git을 클론 합니다.

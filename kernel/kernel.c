@@ -65,8 +65,13 @@ int main() {
         }
 
         else if (strcmp(input, "help") == 0) {
-            print_minios("Sorry, It will be implemented soon.");
-            print_minios("\n");
+            print_minios("");
+            print_minios("show_m - 메모리 VIEW에서 볼 수 있는 매모리 그림을 업데이트 합니다. \n");
+            print_minios("show_f - Frame Manager를 참조하여, 모든 frame의 번호, 상태(할당), 프레임의 첫주소를 볼 수 있습니다. \n");
+            print_minios("show-efl - 가용 가능 프레임 리스트를 볼 수 있습니다. \n");
+            print_minios("show_pp - Process Pool을 참조하여, 현재 메모리에 적재된 프로그램을 볼 수 있습니다. \n");
+            print_minios("execute - 실행하고자 하는 프로그램을 입력받아 메모리에 적재합니다. \n");
+            print_minios("terminate - 실행 중인 프로그램을 종료 시킵니다. \n");
         }
 
         else if (strcmp(input, "show_m") == 0) {

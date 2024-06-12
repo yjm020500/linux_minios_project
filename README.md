@@ -74,9 +74,9 @@ execute와 terminate 명령어 입력 후 입력받는 인자에서 다음과 �
 
 0. tmux가 설치되어 있어야 합니다.
 
-   → Linux : sudo apt install tmux
+   → Linux : `sudo apt install tmux`
 
-   → MacOS : brew install tmux (MacOS 용 패키지 관리자 homebrew가 필요합니다.)
+   → MacOS : `brew install tmux` (MacOS 용 패키지 관리자 homebrew가 필요합니다.)
 
 1. Terminal을 실행합니다.
 
@@ -84,7 +84,7 @@ execute와 terminate 명령어 입력 후 입력받는 인자에서 다음과 �
 
 3. `cd os_project` 를 입력하여 폴더를 이동 합니다.
 
-4. `make`를 입력하여 프로그램(코드)를 빌드합니다.
+4. `make`를 입력하여 프로그램(코드)을 빌드합니다.
 
 5. `./powerOn` 을 입력하여 부팅 프로그램을 실행합니다.
 
